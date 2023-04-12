@@ -1,9 +1,15 @@
+# STILL A WIP AS OF 12 APR 2023 21:14
+
 #!/bin/bash
 set -e
 
+# first move to root
+echo "Changing directory to root..."
+cd /
+
 # 1. Copy user1's home directory
 echo "Copying user1's home directory..."
-cp -a /home/user1 /user1
+rsync -a --info=progress2 /home/user1 /user1
 
 # 2. Delete Btrfs subvolume with ID 257
 echo "Deleting Btrfs subvolume with ID 257..."
@@ -26,4 +32,3 @@ echo "Setting permissions for /home/user1..."
 sudo chmod 755 /home/user1
 
 echo "Script completed successfully."
-
