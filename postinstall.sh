@@ -11,9 +11,6 @@ if ! pacman -Qs spice-vdagent > /dev/null; then
 sudo pacman -S spice-vdagent --noconfirm
 fi
 
-echo "Updating the package database and upgrading the system"
-yay -Syyu --noconfirm
-
 echo "Removing subvol ID's from /etc/fstab"
 sed -i 's/subvolid=[0-9]*,//g' /etc/fstab
 
