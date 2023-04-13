@@ -21,7 +21,7 @@ sudo mv /user1 /home/user1
 
 # 5. Change ownership of /home/user1
 echo "Changing ownership of /home/user1 to user1:user1..."
-sudo chown user1:user1 /home/user1
+sudo chown $USER:$USER /home/user1
 
 # 6. Set permissions for /home/user1
 echo "Setting permissions for /home/user1..."
