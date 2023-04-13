@@ -11,13 +11,6 @@ if ! pacman -Qs spice-vdagent > /dev/null; then
 sudo pacman -S spice-vdagent --noconfirm
 fi
 
-echo "Installing yay"
-cd /opt
-sudo git clone https://aur.archlinux.org/yay-git.git
-sudo chown -R $USER:$USER ./yay-git
-cd yay-git
-makepkg -si --noconfirm
-
 echo "Updating the package database and upgrading the system"
 yay -Syyu --noconfirm
 
