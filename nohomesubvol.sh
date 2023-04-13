@@ -1,7 +1,10 @@
 #!/bin/bash
 set -e
 
-# Steps 1 and 2 can be done as part of a post-install script, because a reboot is required one way or another before you can do step 4.
+# Steps 1 and 2 can be done as part of post-install commands
+# then a script can handle the rest
+# after the first reboot because a reboot is required one way
+# or another before you can do step 4.
 
 # 1. Copy user1's home directory
 # echo "Copying user1's home directory..."
