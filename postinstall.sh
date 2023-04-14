@@ -6,9 +6,7 @@ set -e
 echo "Enabling parallel downloads"
 sudo sed -i '/^#Parallel/s/^#//' /etc/pacman.conf
 
-#!/bin/bash
 echo "Checking if spice-vdagent and rsync are installed"
-
 # Install packages if not already installed
 packages_to_install=()
 if ! pacman -Qs spice-vdagent > /dev/null; then
