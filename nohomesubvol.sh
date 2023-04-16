@@ -18,13 +18,17 @@ set -e
 echo "Deleting Btrfs subvolume with ID 257..."
 sudo btrfs subvolume delete -i 257 /
 
+# 3. Delete /home/user1 if it exists
+echo "Deleting any existing /home/user1"
+rm -rf /home/user1
+
 # 4. Move /user1 to /home/user1
 echo "Moving /user1 to /home/user1..."
 sudo mv /user1 /home/user1
 
 # 5. Change ownership of /home/user1
 echo "Changing ownership of /home/user1 to user1:user1..."
-sudo chown $USER:$USER /home/user1
+sudo chown user1:user1 /home/user1
 
 # 6. Set permissions for /home/user1
 echo "Setting permissions for /home/user1..."
