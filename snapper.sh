@@ -23,7 +23,7 @@ sudo mkinitcpio -P
 
 # 6-7. Remove and unmount /.snapshots
 echo "Unmounting and removing /.snapshots..."
-sudo umount /.snapshots || true
+sudo umount /.snapshots
 sudo rm -rf /.snapshots
 
 # 8. Create snapper config for root
