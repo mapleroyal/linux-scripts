@@ -11,7 +11,7 @@ yay -S btrfs-assistant --noconfirm
 
 # 3. Add grub-btrfs-overlayfs to HOOKS in /etc/mkinitcpio.conf
 echo "Adding grub-btrfs-overlayfs to HOOKS..."
-sudo sed -i '/^HOOKS=/ s/\]/ grub-btrfs-overlayfs\]/' /etc/mkinitcpio.conf
+sudo sed -i '/^HOOKS=/ s/)/ grub-btrfs-overlayfs)/' /etc/mkinitcpio.conf
 
 # 4. Replace systemd with udev in HOOKS
 echo "Replacing systemd with udev in HOOKS..."
