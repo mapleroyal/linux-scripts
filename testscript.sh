@@ -16,3 +16,24 @@ elif [[ $option == "2" ]]; then
 else
   echo "Invalid option"
 fi
+
+
+
+
+apply a random wallpaper
+find /home/user1/Pictures/wallpapers/light -type f -print0 | shuf -zn1 | xargs -0 realpath
+
+apply a specific wallpaper
+	add rounded corners?
+		if yes
+			add dimming?
+				if yes
+					add both > output > apply
+				if no
+					only round > output > apply
+		if no
+			add dimming?
+				if yes
+					only dim > output apply
+				if no
+					apply image straight away
