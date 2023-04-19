@@ -9,7 +9,7 @@ echo "q - Quit"
 read option
 
 if [[ $option == "1" ]]; then
-    selected_file=$(find /home/$USER/Pictures/wallpapers -type f | shuf -n 1)
+    selected_file=$(find /home/$USER/Pictures/wallpapers \( -path "/home/$USER/Pictures/wallpapers/dark/*" -o -path "/home/$USER/Pictures/wallpapers/light/*" \) -type f | shuf -n 1)
     /usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark "$selected_file"
 else
     # get current wallpaper path
