@@ -1,14 +1,25 @@
 #!/bin/zsh
 
-# Begin main script
+# Function to reset terminal settings on exit
+function on_exit() {
+    stty "$original_stty_settings"
+}
 
+# Save original terminal settings and trap exit signal
+original_stty_settings=$(stty -g)
+trap on_exit EXIT
+
+# Set terminal to read input immediately
+stty -icanon -echo min 1 time 0
+
+# Begin main script
 while true; do
     echo "Choose an option:"
     echo "1 - Apply a random wallpaper"
     echo "2 - Modify the current wallpaper"
     echo "q - Quit"
     
-    read option
+    option=$(dd bs=1 count=1 2>/dev/null)
     
     if [[ $option == "q" ]]; then
         break
@@ -28,15 +39,15 @@ while true; do
             echo "3 - Both"
             echo "q - Quit"
             
-            read mod_option
+            mod_option=$(dd bs=1 count=1 2>/dev/null)
             
             if [[ $mod_option == "q" ]]; then
-                break
+                exit
             fi
             
             rounded_corners="/home/$USER/Pictures/wallpapers/roundedcorners.png"
             
-            # get current wallpaper path:
+            # get current wallpaper path
             current_bg=$( /usr/bin/gsettings get org.gnome.desktop.background picture-uri-dark | tr -d "'" )
             
             # create a temporary image
@@ -62,7 +73,6 @@ while true; do
                 # darken the image
                 convert "$temp_image" -fill black -colorize 60% "$temp_image"
             fi
-            
             # copy the modified image to the output location
             cp "$temp_image" "$output_image"
             
@@ -72,5 +82,4 @@ while true; do
     else
         echo "Invalid input. Please try again."
     fi
-    
 done
