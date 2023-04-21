@@ -1,5 +1,9 @@
 #!/bin/zsh
 
+# Put wallpapers in /home/$USER/Pictures/wallpapers/bg-images (or change the path below)
+# roundedcorners.png is a transparent png with a rounded corners mask:
+# Add it to /home/$USER/Pictures/wallpapers/roundedcorners.png (or change the path below)
+
 # Function to reset terminal settings on exit
 function on_exit() {
     stty "$original_stty_settings"
@@ -26,7 +30,7 @@ while true; do
     fi
     
     if [[ $option == "1" ]]; then
-        selected_file=$(find /home/$USER/Pictures/wallpapers \( -path "/home/$USER/Pictures/wallpapers/dark/*" -o -path "/home/$USER/Pictures/wallpapers/light/*" \) -type f | shuf -n 1)
+        selected_file=$(find /home/$USER/Pictures/wallpapers/bg-images -type f | shuf -n 1)
         /usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark "$selected_file"
         elif [[ $option == "2" ]]; then
         # get current wallpaper path
@@ -34,9 +38,11 @@ while true; do
         
         echo "Choose modifications (type numbers without spaces and press Enter):"
         echo "1 - Add rounded corners"
-        echo "2 - Darken the image"
-        echo "3 - Blur the image"
-        echo "4 - Pixelate the image"
+        echo "2 - Darken"
+        echo "3 - Blur - Max"
+        echo "4 - Blur - Min"
+        echo "5 - Pixelate - Max"
+        echo "6 - Pixelate - Min"
         echo "q - Quit"
         
         # Reset terminal settings for modification input
@@ -72,19 +78,30 @@ while true; do
             case $mod_option in
                 1)
                     # add rounded corners
-                    convert "$temp_image" \( "$rounded_corners" -resize "$(identify -format "%wx%h" "$temp_image")" \) -gravity center -composite "$temp_image"
+                    convert "$temp_image" -resize "1920x1200^" -gravity center -extent 1920x1200 "$temp_image"
+                    convert "$temp_image" "$rounded_corners" -gravity center -composite "$temp_image"
                 ;;
                 2)
                     # darken the image
                     convert "$temp_image" -fill black -colorize 60% "$temp_image"
                 ;;
                 3)
-                    # blur the image
+                    # blur the image - maximum
                     convert "$temp_image" -blur 0x43 "$temp_image"
                 ;;
                 4)
-                    # pixelate the image
+                    # blur the image - minimum
+                    convert "$temp_image" -blur 0x17 "$temp_image"
+                ;;
+                5)
+                    # pixelate the image - maximum
+                    convert "$temp_image" -resize "1920x1200^" -gravity center -extent 1920x1200 "$temp_image"
                     convert "$temp_image" -scale 5% -scale 2000% "$temp_image"
+                ;;
+                6)
+                    # pixelate the image - minimum
+                    convert "$temp_image" -resize "1920x1200^" -gravity center -extent 1920x1200 "$temp_image"
+                    convert "$temp_image" -scale 10% -scale 1000% "$temp_image"
                 ;;
                 *)
                     echo "Invalid input. Please try again."
