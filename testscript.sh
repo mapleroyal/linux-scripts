@@ -31,10 +31,21 @@ while true; do
     
     if [[ $option == "1" ]]; then
         selected_file=$(find /home/$USER/Pictures/wallpapers/bg-images -type f | shuf -n 1)
-        /usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark "$selected_file"
+        # Updated command to set the image
+        swww img "$selected_file" -t any --transition-duration 1.5
         elif [[ $option == "2" ]]; then
-        # get current wallpaper path
-        current_bg=$( /usr/bin/gsettings get org.gnome.desktop.background picture-uri-dark | tr -d "'" )
+        # Get current wallpaper filename
+        current_bg_name=$(swww query | grep -oP 'image: "\K[^"]+')
+        # Find the actual path of the image
+        current_bg=$(find "/home/$USER/Pictures/wallpapers/" -type f -name "$current_bg_name" | head -n 1)
+        
+        # Check if the image is found and set current_bg accordingly
+        if [ -z "$current_bg" ]; then
+            echo "Error: Image not found."
+        else
+            echo "Image found at: $current_bg"
+        fi
+        
         
         echo "Choose modifications (type numbers without spaces and press Enter):"
         echo "1 - Add rounded corners"
@@ -58,9 +69,6 @@ while true; do
         fi
         
         rounded_corners="/home/$USER/Pictures/wallpapers/roundedcorners.png"
-        
-        # get current wallpaper path
-        current_bg=$( /usr/bin/gsettings get org.gnome.desktop.background picture-uri-dark | tr -d "'" )
         
         # create a temporary image
         temp_image="/tmp/temp_bg.png"
@@ -113,7 +121,7 @@ while true; do
         cp "$temp_image" "$output_image"
         
         # set wallpaper with
-        /usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark "$output_image"
+        swww img "$output_image" -t any --transition-duration 1.5
         
     else
         echo "Invalid input. Please try again."
