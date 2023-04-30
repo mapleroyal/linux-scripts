@@ -33,6 +33,7 @@ while true; do
         selected_file=$(find /home/$USER/Pictures/wallpapers/bg-images -type f | shuf -n 1)
         # Updated command to set the image
         swww img "$selected_file" -t any --transition-duration 1.5
+        echo -e "preload = $selected_file\n""wallpaper = ,$selected_file" > ~/.config/hypr/hyprpaper.conf
         elif [[ $option == "2" ]]; then
         # Get current wallpaper filename
         current_bg_name=$(swww query | grep -oP 'image: "\K[^"]+')
@@ -122,6 +123,7 @@ while true; do
         
         # set wallpaper with
         swww img "$output_image" -t any --transition-duration 1.5
+        echo -e "preload = $current_bg_path\n""wallpaper = ,$current_bg_path" > ~/.config/hypr/hyprpaper.conf
         
     else
         echo "Invalid input. Please try again."
