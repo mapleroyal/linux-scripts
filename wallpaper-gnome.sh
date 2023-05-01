@@ -21,6 +21,7 @@ while true; do
     echo "Choose an option:"
     echo "1 - Apply a random wallpaper"
     echo "2 - Modify the current wallpaper"
+    echo "3 - Restore original source"
     echo "q - Quit"
     
     option=$(dd bs=1 count=1 2>/dev/null)
@@ -32,7 +33,11 @@ while true; do
     if [[ $option == "1" ]]; then
         selected_file=$(find /home/$USER/Pictures/wallpapers/bg-images -type f | shuf -n 1)
         /usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark "$selected_file"
-        elif [[ $option == "2" ]]; then
+
+        # Save the original source path to a text file
+        echo "$selected_file" > /home/$USER/Pictures/wallpapers/current/original_source.txt
+
+    elif [[ $option == "2" ]]; then
         # get current wallpaper path
         current_bg=$( /usr/bin/gsettings get org.gnome.desktop.background picture-uri-dark | tr -d "'" )
         
@@ -43,6 +48,7 @@ while true; do
         echo "4 - Blur - Min"
         echo "5 - Pixelate - Max"
         echo "6 - Pixelate - Min"
+        echo "r - Restore original source"
         echo "q - Quit"
         
         # Reset terminal settings for modification input
@@ -114,7 +120,16 @@ while true; do
         
         # set wallpaper with
         /usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark "$output_image"
-        
+
+    elif [[ $option == "3" ]]; then
+        # Restore the original source if available
+        if [ -f /home/$USER/Pictures/wallpapers/current/original_source.txt ]; then
+            original_source=$(cat /home/$USER/Pictures/wallpapers/current/original_source.txt)
+            /usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark "$original_source"
+        else
+            echo "No original source found."
+        fi
+
     else
         echo "Invalid input. Please try again."
     fi
