@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Wallpaper script for use with hyperland and swww
 # Put wallpapers in /home/$USER/Pictures/wallpapers/bg-images (or change the path below)
 # roundedcorners.png is a transparent png with a rounded corners mask:
 # Add it to /home/$USER/Pictures/wallpapers/roundedcorners.png (or change the path below)
@@ -21,6 +22,7 @@ while true; do
     echo "Choose an option:"
     echo "1 - Apply a random wallpaper"
     echo "2 - Modify the current wallpaper"
+    echo "3 - Restore original source"
     echo "q - Quit"
     
     option=$(dd bs=1 count=1 2>/dev/null)
@@ -31,15 +33,18 @@ while true; do
     
     if [[ $option == "1" ]]; then
         selected_file=$(find /home/$USER/Pictures/wallpapers/bg-images -type f | shuf -n 1)
-        # Updated command to set the image
         swww img "$selected_file" -t any --transition-duration 1.5
         echo -e "preload = $selected_file\n""wallpaper = ,$selected_file" > ~/.config/hypr/hyprpaper.conf
-        elif [[ $option == "2" ]]; then
+
+        # Save the original source path to a text file
+        echo "$selected_file" > /home/$USER/Pictures/wallpapers/current/original_source.txt
+
+    elif [[ $option == "2" ]]; then
         # Get current wallpaper filename
         current_bg_name=$(swww query | grep -oP 'image: "\K[^"]+')
         # Find the actual path of the image
         current_bg=$(find "/home/$USER/Pictures/wallpapers/" -type f -name "$current_bg_name" | head -n 1)
-        
+
         # Check if the image is found and set current_bg accordingly
         if [ -z "$current_bg" ]; then
             echo "Error: Image not found."
@@ -124,9 +129,18 @@ while true; do
         # set wallpaper with
         swww img "$output_image" -t any --transition-duration 1.5
         echo -e "preload = $current_bg_path\n""wallpaper = ,$current_bg_path" > ~/.config/hypr/hyprpaper.conf
-        
+
+    elif [[ $option == "3" ]]; then
+        # Restore the original source if available
+        if [ -f /home/$USER/Pictures/wallpapers/current/original_source.txt ]; then
+            original_source=$(cat /home/$USER/Pictures/wallpapers/current/original_source.txt)
+            swww img "$original_source" -t any --transition-duration 1.5
+            echo -e "preload = $original_source\n""wallpaper = ,$original_source" > ~/.config/hypr/hyprpaper.conf
+        else
+            echo "No original source found."
+        fi
+
     else
         echo "Invalid input. Please try again."
     fi
-    
 done
