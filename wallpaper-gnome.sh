@@ -84,7 +84,7 @@ while true; do
             case $mod_option in
                 1)
                     # add rounded corners
-                    convert "$temp_image" -resize "1920x1200^" -gravity center -extent 1920x1200 "$temp_image"
+                    convert "$temp_image" -resize "1920x1080^" -gravity center -extent 1920x1080 "$temp_image"
                     convert "$temp_image" "$rounded_corners" -gravity center -composite "$temp_image"
                 ;;
                 2)
@@ -101,12 +101,12 @@ while true; do
                 ;;
                 5)
                     # pixelate the image - maximum
-                    convert "$temp_image" -resize "1920x1200^" -gravity center -extent 1920x1200 "$temp_image"
+                    convert "$temp_image" -resize "1920x1080^" -gravity center -extent 1920x1080 "$temp_image"
                     convert "$temp_image" -scale 5% -scale 2000% "$temp_image"
                 ;;
                 6)
                     # pixelate the image - minimum
-                    convert "$temp_image" -resize "1920x1200^" -gravity center -extent 1920x1200 "$temp_image"
+                    convert "$temp_image" -resize "1920x1080^" -gravity center -extent 1920x1080 "$temp_image"
                     convert "$temp_image" -scale 10% -scale 1000% "$temp_image"
                 ;;
                 *)
