@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>SVG Downloader</h2>
+
+    <label for="svgContent">SVG Content:</label><br />
+    <textarea id="svgContent" name="svgContent" rows="10" cols="50"></textarea
+    ><br />
+
+    <button id="downloadBtn">Download SVG</button>
+
+    <script>
+      document
+        .getElementById("downloadBtn")
+        .addEventListener("click", function () {
+          var svgContent = document.getElementById("svgContent").value;
+          var blob = new Blob([svgContent], {
+            type: "image/svg+xml;charset=utf-8",
+          });
+          var url = URL.createObjectURL(blob);
+
+          var downloadLink = document.createElement("a");
+          downloadLink.href = url;
+          downloadLink.download = "downloaded_image.svg";
+
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+        });
+    </script>
+  </body>
+</html>
