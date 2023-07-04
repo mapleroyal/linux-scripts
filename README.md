@@ -1,5 +1,7 @@
 # linux-scripts
 
+NOTE: This is a totally incomplete WIP for my personal use. Use anything you need, but I can't say if any part of it, including the instructions below, are finished.
+
 Order:
 
 - at chroot, run post-install
